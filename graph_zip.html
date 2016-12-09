@@ -30,7 +30,7 @@ var svg =
                 width = +svg.attr("width"),
                 height = +svg.attr("height");
 
-
+var graph;
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 var simulation = d3.forceSimulation()
@@ -39,7 +39,7 @@ var simulation = d3.forceSimulation()
     .force("center", d3.forceCenter(width / 1, height / 1));
 
 
-d3.json("graph.json", function(error, graph) {
+d3.json("graph_zip.json", function(error, graph) {
   if (error) throw error;
 
   var link = svg.append("g")
@@ -84,6 +84,23 @@ d3.json("graph.json", function(error, graph) {
         .attr("cy", function(d) { return d.y; });
   }
 
+console.log(graph)
+
+var optArray = [];
+for (var i = 0; i < graph.nodes.length - 1; i++) {
+    optArray.push(graph.nodes[i].name);
+}
+
+
+optArray = optArray.sort();
+
+$(function () {
+    $("#search").autocomplete({
+        source: optArray
+    });
+});
+
+
 
 });
 
@@ -104,20 +121,7 @@ function dragended(d) {
   d.fy = null;
 }
 
-/*
 
-var optArray = [];
-for (var i = 0; i < graph.nodes.length - 1; i++) {
-    optArray.push(graph.nodes[i].name);
-}
-
-optArray = optArray.sort();
-
-$(function () {
-    $("#search").autocomplete({
-        source: optArray
-    });
-});
 
 
 function searchNode() {
@@ -142,8 +146,7 @@ function searchNode() {
 
 
     }
-}
-*/
+} 
 
 
 
